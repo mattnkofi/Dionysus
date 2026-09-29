@@ -31,7 +31,6 @@ jobs:
 
     - name: Sync Capacitor Android
       run: |
-        # Kung wala pang android folder, i-add ito. Kung meron na, i-sync na lang.
         if [ ! -d "android" ]; then
           npx cap add android
         else
@@ -53,7 +52,8 @@ jobs:
     - name: Generate App Icons from logo.png
       run: |
         npm install -D @capacitor/assets
-        npx capacitor-assets generate --android --iconPath logo.png
+        # Pinalitan ang tamang flag mula sa --iconPath patungong --icon
+        npx capacitor-assets generate --android --icon logo.png
 
     - name: Build APK with Gradle
       run: |
