@@ -29,19 +29,25 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Initialize Capacitor Android
+    - name: Sync Capacitor Android
       run: |
-        npx cap add android
-        npx cap sync android
+        # Kung wala pang android folder, i-add ito. Kung meron na, i-sync na lang.
+        if [ ! -d "android" ]; then
+          npx cap add android
+        else
+          npx cap sync android
+        fi
 
     - name: Configure App Name to Dionysus
       run: |
         node -e '
           const fs = require("fs");
           const path = "android/app/src/main/res/values/strings.xml";
-          let xml = fs.readFileSync(path, "utf8");
-          xml = xml.replace(/<string name=\"app_name\">[^<]*<\/string>/, "<string name=\"app_name\">Dionysus</string>");
-          fs.writeFileSync(path, xml);
+          if (fs.existsSync(path)) {
+            let xml = fs.readFileSync(path, "utf8");
+            xml = xml.replace(/<string name=\"app_name\">[^<]*<\/string>/, "<string name=\"app_name\">Dionysus</string>");
+            fs.writeFileSync(path, xml);
+          }
         '
 
     - name: Generate App Icons from logo.png
