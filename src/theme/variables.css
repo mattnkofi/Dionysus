@@ -1,2 +1,19 @@
-/* For information on how to create your own theme, please refer to:
-http://ionicframework.com/docs/theming/ */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Syne:wght@700;800&display=swap');
+
+:root {
+  --ion-font-family: 'Chakra Petch', -apple-system, BlinkMacSystemFont, sans-serif;
+  --bg-pure-black: #000000;
+  --panel-surface: #080808;
+  --panel-card: #0e0e0e;
+  --border-subtle: #222222;
+  --border-medium: #333333;
+  --text-main: #f5f5f5;
+  --text-muted: #888888;
+}
+
+body {
+  background-color: var(--bg-pure-black);
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+}
