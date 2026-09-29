@@ -49,11 +49,17 @@ jobs:
           }
         '
 
-    - name: Generate App Icons from logo.png
+    - name: Prepare Assets and Generate App Icons
       run: |
+        # Gumawa ng assets folder at kopyahin/i-rename ang logo.png patungong icon.png
+        mkdir -p assets
+        if [ -f "logo.png" ]; then
+          cp logo.png assets/icon.png
+        fi
+        
         npm install -D @capacitor/assets
-        # Pinalitan ang tamang flag mula sa --iconPath patungong --icon
-        npx capacitor-assets generate --android --icon logo.png
+        # Patakbuhin ang generator nang walang maling flags (awtomatikong babasahin ang assets/icon.png)
+        npx capacitor-assets generate --android
 
     - name: Build APK with Gradle
       run: |
