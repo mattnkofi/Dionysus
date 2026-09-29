@@ -50,14 +50,28 @@ jobs:
             }
           '
 
-      - name: Generate App Icons from logo.png
+      - name: Force Exact Logo as App Icon
         run: |
+          # Gumamit ng capacitor-assets para sa malinis na generation, sabay overwrite sa mipmap folders para sigurado
           mkdir -p assets
           if [ -f "logo.png" ]; then
             cp logo.png assets/icon.png
           fi
           npm install -D @capacitor/assets
           npx capacitor-assets generate --android
+          
+          # Explicit overwrite kung saan direktang kinokopya ang logo.png sa mipmap folders ng Android
+          if [ -f "logo.png" ]; then
+            RES_DIR="android/app/src/main/res"
+            for density in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+              TARGET_DIR="$RES_DIR/mipmap-$density"
+              if [ -d "$TARGET_DIR" ]; then
+                cp logo.png "$TARGET_DIR/ic_launcher.png"
+                cp logo.png "$TARGET_DIR/ic_launcher_round.png"
+                cp logo.png "$TARGET_DIR/ic_launcher_foreground.png"
+              fi
+            done
+          fi
 
       - name: Make Gradle executable
         run: chmod +x ./android/gradlew
